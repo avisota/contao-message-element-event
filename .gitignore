@@ -12,6 +12,7 @@ nbproject/
 
 # runtime files
 .tx/
+module/.skip
 
 # dependencies
 vendor
