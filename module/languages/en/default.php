@@ -15,13 +15,6 @@
 
 
 /**
- * Fields
+ * Mailing content elements
  */
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId']          = array(
-	'Event',
-	'Please choose the event to include.'
-);
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']          = array(
-	'Event template',
-	'Please choose the event template.'
-);
+$GLOBALS['TL_LANG']['MCE']['event'] = array('Event', 'Displays an event.');

@@ -13,6 +13,7 @@
  * @filesource
  */
 
+use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory;
 
 /**
  * Table orm_avisota_message_content
@@ -21,19 +22,43 @@
 $GLOBALS['TL_DCA']['orm_avisota_message_content']['metapalettes']['event'] = array
 (
 	'type'    => array('type', 'cell', 'headline'),
-	'include' => array('event'),
+	'include' => array('eventId', 'eventTemplate'),
 	'expert'  => array(':hide', 'cssID', 'space')
 );
 
-$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['event'] = array
+$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventId']       = array
 (
-	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['event'],
+	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId'],
 	'exclude'   => true,
-	'inputType' => 'eventchooser',
-	'eval'      => array('mandatory' => true),
+	'inputType' => 'selectri',
+	'eval'      => array(
+		'min'  => 1,
+		'data' => function () {
+				/** @var SelectriContaoTableDataFactory $data */
+				$data = SelectriContaoTableDataFactory::create();
+				$data->setItemTable('tl_calendar_events');
+				$data->getConfig()
+					->setItemSearchColumns(array('title'));
+				$data->getConfig()
+					->setItemConditionExpr('tstamp > 0');
+				$data->getConfig()
+					->setItemOrderByExpr('startDate DESC');
+				return $data;
+			},
+	),
 	'field'     => array(
+		'type'     => 'integer',
 		'nullable' => true,
-		'type'     => 'serialized',
-		'length'   => 65532
-	)
+	),
+);
+$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate'] = array
+(
+	'label'            => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate'],
+	'exclude'          => true,
+	'inputType'        => 'select',
+	'options_callback' => CreateOptionsEventCallbackFactory::createTemplateGroupCallback('event_'),
+	'field'            => array(
+		'type'     => 'string',
+		'nullable' => true,
+	),
 );
