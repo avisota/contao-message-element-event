@@ -24,6 +24,7 @@
 	"require":{
 		"php":">=5.3",
 		"contao-community-alliance/composer-installer": "~1.6",
+		"contao/core": ">=2.11.11,<3.4",
 		"avisota/contao-message": "~2.0",
 		"avisota/contao-message-element-headline": "~2.0",
 		"backboneit/contao-selectri": "~2.0"
