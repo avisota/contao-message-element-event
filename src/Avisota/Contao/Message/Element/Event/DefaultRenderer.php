@@ -63,9 +63,19 @@ class DefaultRenderer implements EventSubscriberInterface
 		/** @var EntityAccessor $entityAccessor */
 		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
 
+		list($id, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
+
+		if ($timestamp) {
+			$date = new \DateTime();
+			$date->setTimestamp($timestamp);
+		}
+		else {
+			$date = null;
+		}
+
 		$getCalendarEventEvent = new GetCalendarEventEvent(
-			$content->getEventId(),
-			null,
+			$id,
+			$date,
 			$content->getEventTemplate()
 		);
 

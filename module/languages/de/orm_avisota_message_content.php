@@ -12,8 +12,8 @@
  */
 
 
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId']['0']       = 'Event';
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId']['1']       = 'Bitte wählen Sie aus, welcher Event eingebunden werden soll.';
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['0'] = 'Event-Template';
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['1'] = 'Bitte wählen Sie das Template für die Darstellung des Events aus.';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp']['0'] = 'Event';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp']['1'] = 'Bitte wählen Sie aus, welcher Event eingebunden werden soll.';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['0']        = 'Event-Template';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['1']        = 'Bitte wählen Sie das Template für die Darstellung des Events aus.';
 
