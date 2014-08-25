@@ -12,8 +12,8 @@
  */
 
 
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId']['0']       = 'Eveniment';
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId']['1']       = 'Tscherna l\'eveniment per includer.';
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['0'] = 'Template d\'eveniment';
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['1'] = 'Tscherna il template per l\'eveniment.';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp']['0'] = 'Eveniment';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp']['1'] = 'Tscherna l\'eveniment per includer.';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['0']        = 'Template d\'eveniment';
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']['1']        = 'Tscherna il template per l\'eveniment.';
 

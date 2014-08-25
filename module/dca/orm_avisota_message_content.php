@@ -21,33 +21,24 @@
 $GLOBALS['TL_DCA']['orm_avisota_message_content']['metapalettes']['event'] = array
 (
 	'type'      => array('cell', 'type', 'headline'),
-	'include'   => array('eventId', 'eventTemplate'),
+	'include'   => array('eventIdWithTimestamp', 'eventTemplate'),
 	'expert'    => array(':hide', 'cssID', 'space'),
 	'published' => array('invisible'),
 );
 
-$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventId']       = array
+$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestamp']       = array
 (
-	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId'],
+	'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp'],
 	'exclude'   => true,
 	'inputType' => 'selectri',
 	'eval'      => array(
 		'min'  => 1,
 		'data' => function () {
-			/** @var SelectriContaoTableDataFactory $data */
-			$data = SelectriContaoTableDataFactory::create();
-			$data->setItemTable('tl_calendar_events');
-			$data->getConfig()
-				->setItemSearchColumns(array('title'));
-			$data->getConfig()
-				->setItemConditionExpr('tstamp > 0');
-			$data->getConfig()
-				->setItemOrderByExpr('startDate DESC');
-			return $data;
+			return \Avisota\Contao\Message\Element\Event\SelectriEventsDataFactory::create();
 		},
 	),
 	'field'     => array(
-		'type'     => 'integer',
+		'type'     => 'string',
 		'nullable' => true,
 	),
 );

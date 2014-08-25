@@ -17,11 +17,11 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventId']          = array(
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp'] = array(
 	'Event',
 	'Please choose the event to include.'
 );
-$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']          = array(
+$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate']        = array(
 	'Event template',
 	'Please choose the event template.'
 );
