@@ -13,7 +13,6 @@
  * @filesource
  */
 
-
 namespace Avisota\Contao\Message\Element\Event;
 
 use Avisota\Contao\Core\Message\Renderer;
@@ -34,61 +33,60 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DefaultRenderer implements EventSubscriberInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	static public function getSubscribedEvents()
-	{
-		return array(
-			AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
-		);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    static public function getSubscribedEvents()
+    {
+        return array(
+            AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
+        );
+    }
 
-	/**
-	 * Render a single message content element.
-	 *
-	 * @param MessageContent     $content
-	 * @param RecipientInterface $recipient
-	 *
-	 * @return string
-	 */
-	public function renderContent(RenderMessageContentEvent $event)
-	{
-		$content = $event->getMessageContent();
+    /**
+     * Render a single message content element.
+     *
+     * @param MessageContent     $content
+     * @param RecipientInterface $recipient
+     *
+     * @return string
+     */
+    public function renderContent(RenderMessageContentEvent $event)
+    {
+        $content = $event->getMessageContent();
 
-		if ($content->getType() != 'event' || $event->getRenderedContent()) {
-			return;
-		}
+        if ($content->getType() != 'event' || $event->getRenderedContent()) {
+            return;
+        }
 
-		/** @var EntityAccessor $entityAccessor */
-		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        /** @var EntityAccessor $entityAccessor */
+        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
 
-		list($id, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
+        list($id, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
 
-		if ($timestamp) {
-			$date = new \DateTime();
-			$date->setTimestamp($timestamp);
-		}
-		else {
-			$date = null;
-		}
+        if ($timestamp) {
+            $date = new \DateTime();
+            $date->setTimestamp($timestamp);
+        } else {
+            $date = null;
+        }
 
-		$getCalendarEventEvent = new GetCalendarEventEvent(
-			$id,
-			$date,
-			$content->getEventTemplate()
-		);
+        $getCalendarEventEvent = new GetCalendarEventEvent(
+            $id,
+            $date,
+            $content->getEventTemplate()
+        );
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
-		$eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $getCalendarEventEvent);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $getCalendarEventEvent);
 
-		$context = $entityAccessor->getProperties($content);
-		$context['event'] = $getCalendarEventEvent->getCalendarEventHtml();
+        $context          = $entityAccessor->getProperties($content);
+        $context['event'] = $getCalendarEventEvent->getCalendarEventHtml();
 
-		$template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
-		$buffer   = $template->parse($context);
+        $template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
+        $buffer   = $template->parse($context);
 
-		$event->setRenderedContent($buffer);
-	}
+        $event->setRenderedContent($buffer);
+    }
 }

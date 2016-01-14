@@ -13,7 +13,6 @@
  * @filesource
  */
 
-
 namespace Avisota\Contao\Message\Element\Event;
 
 /**
@@ -21,13 +20,13 @@ namespace Avisota\Contao\Message\Element\Event;
  */
 class SelectriEventsDataFactory extends \SelectriAbstractDataFactory
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function createData()
-	{
-		$data = new SelectriEventsData();
-		$data->setWidget($this->getWidget());
-		return $data;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function createData()
+    {
+        $data = new SelectriEventsData();
+        $data->setWidget($this->getWidget());
+        return $data;
+    }
 }

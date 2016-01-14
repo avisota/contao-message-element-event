@@ -13,7 +13,6 @@
  * @filesource
  */
 
-
 /**
  * Mailing content elements
  */
