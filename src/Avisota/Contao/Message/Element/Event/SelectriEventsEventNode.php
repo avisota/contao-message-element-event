@@ -41,6 +41,13 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     protected $month;
 
+    /**
+     * SelectriEventsEventNode constructor.
+     *
+     * @param SelectriEventsData $data
+     * @param                    $row
+     * @param \DateTime          $date
+     */
     public function __construct(SelectriEventsData $data, $row, \DateTime $date)
     {
         $this->data = $data;
@@ -88,7 +95,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getKey()
     {
@@ -96,7 +103,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getData()
     {
@@ -104,7 +111,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getLabel()
     {
@@ -137,7 +144,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getContent()
     {
@@ -145,7 +152,9 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @param $key
+     *
+     * @return string
      */
     public function getAdditionalInputName($key)
     {
@@ -156,7 +165,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getIcon()
     {
@@ -168,7 +177,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function isSelectable()
     {
@@ -176,7 +185,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function isOpen()
     {
@@ -184,7 +193,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function hasPath()
     {
@@ -192,7 +201,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return \ArrayIterator
      */
     public function getPathIterator()
     {
@@ -200,7 +209,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function hasItems()
     {
@@ -208,7 +217,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return \EmptyIterator
      */
     public function getItemIterator()
     {
@@ -216,7 +225,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function hasSelectableDescendants()
     {
@@ -224,7 +233,7 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * {@inheritdoc}
+     * @return \EmptyIterator
      */
     public function getChildrenIterator()
     {

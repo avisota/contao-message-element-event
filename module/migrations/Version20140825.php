@@ -18,8 +18,18 @@ namespace DoctrineMigrations\AvisotaMessageElementEvent;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
+/**
+ * Class Version20140825
+ *
+ * @package DoctrineMigrations\AvisotaMessageElementEvent
+ */
 class Version20140825 extends AbstractMigration
 {
+    /**
+     * @param Schema $schema
+     *
+     * @throws \Doctrine\DBAL\Schema\SchemaException
+     */
     public function up(Schema $schema)
     {
         if (!$schema->hasTable('orm_avisota_message_content')) {
@@ -35,6 +45,9 @@ class Version20140825 extends AbstractMigration
         $this->addSql('ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL');
     }
 
+    /**
+     * @param Schema $schema
+     */
     public function down(Schema $schema)
     {
     }
