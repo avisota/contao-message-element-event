@@ -21,7 +21,7 @@ namespace Avisota\Contao\Message\Element\Event;
 class SelectriEventsDataFactory extends \SelectriAbstractDataFactory
 {
     /**
-     * @return SelectriData A new data instance
+     * @return \SelectriData A new data instance
      */
     public function createData()
     {

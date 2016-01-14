@@ -48,7 +48,7 @@ class SelectriEventsData implements \SelectriData
     }
 
     /**
-     * @throws Exception If this data instance is not configured correctly
+     * @throws \Exception If this data instance is not configured correctly
      * @return void
      */
     public function validate()
@@ -80,7 +80,7 @@ class SelectriEventsData implements \SelectriData
      * @param array <string> $selection An array of primary key values in their
      *              string representation
      *
-     * @return Iterator<SelectriNode> An iterator over the nodes identified by
+     * @return \Iterator<SelectriNode> An iterator over the nodes identified by
      *        the given primary keys
      */
     public function getSelectionIterator(array $selection)
@@ -144,7 +144,7 @@ class SelectriEventsData implements \SelectriData
      * @param string|null $start A primary key value in its string
      *                           representation or null
      *
-     * @return Iterator<SelectriNode> An iterator over nodes
+     * @return \Iterator<SelectriNode> An iterator over nodes
      */
     public function getTreeIterator($start = null)
     {
@@ -161,7 +161,7 @@ class SelectriEventsData implements \SelectriData
      * @param string $key A primary key value in its string
      *                    representation
      *
-     * @return Iterator<SelectriNode> An iterator over the root nodes
+     * @return \Iterator<SelectriNode> An iterator over the root nodes
      */
     public function getPathIterator($key)
     {
@@ -176,7 +176,7 @@ class SelectriEventsData implements \SelectriData
      *
      * @param string $query The search query to match nodes against
      *
-     * @return Iterator<SelectriNode> An iterator over nodes matched by the given
+     * @return \Iterator<SelectriNode> An iterator over nodes matched by the given
      *        search query
      */
     public function getSearchIterator($query)
