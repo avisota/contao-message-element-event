@@ -2,17 +2,16 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-message-element-event
  * @license    LGPL-3.0+
  * @filesource
  */
-
 
 namespace Avisota\Contao\Message\Element\Event;
 
@@ -22,213 +21,222 @@ namespace Avisota\Contao\Message\Element\Event;
 class SelectriEventsEventNode implements \SelectriNode
 {
 
-	/**
-	 * @var SelectriEventsData
-	 */
-	protected $data;
+    /**
+     * @var SelectriEventsData
+     */
+    protected $data;
 
-	/**
-	 * @var array
-	 */
-	protected $row;
+    /**
+     * @var array
+     */
+    protected $row;
 
-	/**
-	 * @var \DateTime
-	 */
-	protected $date;
+    /**
+     * @var \DateTime
+     */
+    protected $date;
 
-	/**
-	 * @var SelectriEventsMonthNode
-	 */
-	protected $month;
+    /**
+     * @var SelectriEventsMonthNode
+     */
+    protected $month;
 
-	public function __construct(SelectriEventsData $data, $row, \DateTime $date)
-	{
-		$this->data = $data;
-		$this->row  = $row;
-		$this->date = $date;
-	}
+    /**
+     * SelectriEventsEventNode constructor.
+     *
+     * @param SelectriEventsData $data
+     * @param                    $row
+     * @param \DateTime          $date
+     */
+    public function __construct(SelectriEventsData $data, $row, \DateTime $date)
+    {
+        $this->data = $data;
+        $this->row  = $row;
+        $this->date = $date;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getRow()
-	{
-		return $this->row;
-	}
+    /**
+     * @return array
+     */
+    public function getRow()
+    {
+        return $this->row;
+    }
 
-	/**
-	 * @return \DateTime
-	 */
-	public function getDate()
-	{
-		return $this->date;
-	}
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
 
-	/**
-	 * @return SelectriEventsMonthNode
-	 */
-	public function getMonth()
-	{
-		if ($this->month) {
-			return $this->month;
-		}
+    /**
+     * @return SelectriEventsMonthNode
+     */
+    public function getMonth()
+    {
+        if ($this->month) {
+            return $this->month;
+        }
 
-		return new SelectriEventsMonthNode($this->data, $this->date);
-	}
+        return new SelectriEventsMonthNode($this->data, $this->date);
+    }
 
-	/**
-	 * @param SelectriEventsMonthNode $month
-	 *
-	 * @return static
-	 */
-	public function setMonth($month)
-	{
-		$this->month = $month;
-		return $this;
-	}
+    /**
+     * @param SelectriEventsMonthNode $month
+     *
+     * @return static
+     */
+    public function setMonth($month)
+    {
+        $this->month = $month;
+        return $this;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getKey()
-	{
-		return $this->row['id'] . '@' . $this->date->getTimestamp();
-	}
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->row['id'] . '@' . $this->date->getTimestamp();
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getData()
-	{
-		return $this->row;
-	}
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->row;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getLabel()
-	{
-		$label = $this->date->format($GLOBALS['TL_CONFIG']['dateFormat']);
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        $label = $this->date->format($GLOBALS['TL_CONFIG']['dateFormat']);
 
-		if ($this->row['addTime']) {
-			$label .= ' ' . date('H:i', $this->row['startTime']);
-		}
+        if ($this->row['addTime']) {
+            $label .= ' ' . date('H:i', $this->row['startTime']);
+        }
 
-		if ($this->row['endDate'] || $this->row['addTime']) {
-			$label .= ' -';
-		}
+        if ($this->row['endDate'] || $this->row['addTime']) {
+            $label .= ' -';
+        }
 
-		if ($this->row['endDate'] && $this->row['endDate'] > $this->row['startDate']) {
-			$seconds = $this->row['endDate'] - $this->row['startDate'];
+        if ($this->row['endDate'] && $this->row['endDate'] > $this->row['startDate']) {
+            $seconds = $this->row['endDate'] - $this->row['startDate'];
 
-			$endDate = clone $this->date;
-			$endDate->add(new \DateInterval(sprintf('PT%dS', $seconds)));
+            $endDate = clone $this->date;
+            $endDate->add(new \DateInterval(sprintf('PT%dS', $seconds)));
 
-			$label .= ' ' . $endDate->format($GLOBALS['TL_CONFIG']['dateFormat']);
-		}
+            $label .= ' ' . $endDate->format($GLOBALS['TL_CONFIG']['dateFormat']);
+        }
 
-		if ($this->row['addTime']) {
-			$label .= ' ' . date('H:i', $this->row['endTime']);
-		}
+        if ($this->row['addTime']) {
+            $label .= ' ' . date('H:i', $this->row['endTime']);
+        }
 
-		$label  .= ': ' . $this->row['title'];
+        $label .= ': ' . $this->row['title'];
 
-		return $label;
-	}
+        return $label;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getContent()
-	{
-		return '';
-	}
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return '';
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getAdditionalInputName($key)
-	{
-		$name = $this->data->getWidget()->getAdditionalInputBaseName();
-		$name .= '[' . $this->getKey() . ']';
-		$name .= '[' . $key . ']';
-		return $name;
-	}
+    /**
+     * @param $key
+     *
+     * @return string
+     */
+    public function getAdditionalInputName($key)
+    {
+        $name = $this->data->getWidget()->getAdditionalInputBaseName();
+        $name .= '[' . $this->getKey() . ']';
+        $name .= '[' . $key . ']';
+        return $name;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getIcon()
-	{
-		if (version_compare(VERSION, '3', '<')) {
-			return 'system/modules/calendar/html/icon.gif';
-		}
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        if (version_compare(VERSION, '3', '<')) {
+            return 'system/modules/calendar/html/icon.gif';
+        }
 
-		return 'system/modules/calendar/assets/icon.gif';
-	}
+        return 'system/modules/calendar/assets/icon.gif';
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isSelectable()
-	{
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function isSelectable()
+    {
+        return true;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isOpen()
-	{
-		return false;
-	}
+    /**
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return false;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasPath()
-	{
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function hasPath()
+    {
+        return true;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getPathIterator()
-	{
-		return new \ArrayIterator(array($this->getMonth()));
-	}
+    /**
+     * @return \ArrayIterator
+     */
+    public function getPathIterator()
+    {
+        return new \ArrayIterator(array($this->getMonth()));
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasItems()
-	{
-		return false;
-	}
+    /**
+     * @return bool
+     */
+    public function hasItems()
+    {
+        return false;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getItemIterator()
-	{
-		return new \EmptyIterator();
-	}
+    /**
+     * @return \EmptyIterator
+     */
+    public function getItemIterator()
+    {
+        return new \EmptyIterator();
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasSelectableDescendants()
-	{
-		return false;
-	}
+    /**
+     * @return bool
+     */
+    public function hasSelectableDescendants()
+    {
+        return false;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getChildrenIterator()
-	{
-		return new \EmptyIterator();
-	}
+    /**
+     * @return \EmptyIterator
+     */
+    public function getChildrenIterator()
+    {
+        return new \EmptyIterator();
+    }
 }

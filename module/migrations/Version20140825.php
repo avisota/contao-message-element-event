@@ -2,12 +2,12 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-message-element-image
  * @license    LGPL-3.0+
  * @filesource
@@ -18,24 +18,37 @@ namespace DoctrineMigrations\AvisotaMessageElementEvent;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
+/**
+ * Class Version20140825
+ *
+ * @package DoctrineMigrations\AvisotaMessageElementEvent
+ */
 class Version20140825 extends AbstractMigration
 {
-	public function up(Schema $schema)
-	{
-		if (!$schema->hasTable('orm_avisota_message_content')) {
-			return;
-		}
+    /**
+     * @param Schema $schema
+     *
+     * @throws \Doctrine\DBAL\Schema\SchemaException
+     */
+    public function up(Schema $schema)
+    {
+        if (!$schema->hasTable('orm_avisota_message_content')) {
+            return;
+        }
 
-		$table = $schema->getTable('orm_avisota_message_content');
+        $table = $schema->getTable('orm_avisota_message_content');
 
-		if (!$table->hasColumn('eventId')) {
-			return;
-		}
+        if (!$table->hasColumn('eventId')) {
+            return;
+        }
 
-		$this->addSql('ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL');
-	}
+        $this->addSql('ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL');
+    }
 
-	public function down(Schema $schema)
-	{
-	}
+    /**
+     * @param Schema $schema
+     */
+    public function down(Schema $schema)
+    {
+    }
 }

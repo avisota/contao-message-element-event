@@ -2,25 +2,22 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright (C) 2013 Tristan Lins
+ * Copyright © 2016 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  bit3 UG 2013
- * @author     Tristan Lins <tristan.lins@bit3.de>
+ * @copyright  way.vision 2016
+ * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-message-element-event
  * @license    LGPL-3.0+
  * @filesource
  */
 
-
 namespace Avisota\Contao\Message\Element\Event;
 
 use Avisota\Contao\Core\Message\Renderer;
-use Avisota\Contao\Entity\MessageContent;
 use Avisota\Contao\Message\Core\Event\AvisotaMessageEvents;
 use Avisota\Contao\Message\Core\Event\RenderMessageContentEvent;
-use Avisota\Recipient\RecipientInterface;
 use Contao\Doctrine\ORM\Entity;
 use Contao\Doctrine\ORM\EntityAccessor;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
@@ -34,61 +31,77 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DefaultRenderer implements EventSubscriberInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	static public function getSubscribedEvents()
-	{
-		return array(
-			AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
-		);
-	}
+    /**
+     * Returns an array of event names this subscriber wants to listen to.
+     *
+     * The array keys are event names and the value can be:
+     *
+     *  * The method name to call (priority defaults to 0)
+     *  * An array composed of the method name to call and the priority
+     *  * An array of arrays composed of the method names to call and respective
+     *    priorities, or 0 if unset
+     *
+     * For instance:
+     *
+     *  * array('eventName' => 'methodName')
+     *  * array('eventName' => array('methodName', $priority))
+     *  * array('eventName' => array(array('methodName1', $priority), array('methodName2'))
+     *
+     * @return array The event names to listen to
+     */
+    static public function getSubscribedEvents()
+    {
+        return array(
+            AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
+        );
+    }
 
-	/**
-	 * Render a single message content element.
-	 *
-	 * @param MessageContent     $content
-	 * @param RecipientInterface $recipient
-	 *
-	 * @return string
-	 */
-	public function renderContent(RenderMessageContentEvent $event)
-	{
-		$content = $event->getMessageContent();
+    /**
+     * Render a single message content element.
+     *
+     * @param RenderMessageContentEvent $event
+     *
+     * @return string
+     * @internal param MessageContent $content
+     * @internal param RecipientInterface $recipient
+     *
+     */
+    public function renderContent(RenderMessageContentEvent $event)
+    {
+        $content = $event->getMessageContent();
 
-		if ($content->getType() != 'event' || $event->getRenderedContent()) {
-			return;
-		}
+        if ($content->getType() != 'event' || $event->getRenderedContent()) {
+            return;
+        }
 
-		/** @var EntityAccessor $entityAccessor */
-		$entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        /** @var EntityAccessor $entityAccessor */
+        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
 
-		list($id, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
+        list($id, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
 
-		if ($timestamp) {
-			$date = new \DateTime();
-			$date->setTimestamp($timestamp);
-		}
-		else {
-			$date = null;
-		}
+        if ($timestamp) {
+            $date = new \DateTime();
+            $date->setTimestamp($timestamp);
+        } else {
+            $date = null;
+        }
 
-		$getCalendarEventEvent = new GetCalendarEventEvent(
-			$id,
-			$date,
-			$content->getEventTemplate()
-		);
+        $getCalendarEventEvent = new GetCalendarEventEvent(
+            $id,
+            $date,
+            $content->getEventTemplate()
+        );
 
-		/** @var EventDispatcher $eventDispatcher */
-		$eventDispatcher = $GLOBALS['container']['event-dispatcher'];
-		$eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $getCalendarEventEvent);
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
+        $eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $getCalendarEventEvent);
 
-		$context = $entityAccessor->getProperties($content);
-		$context['event'] = $getCalendarEventEvent->getCalendarEventHtml();
+        $context          = $entityAccessor->getProperties($content);
+        $context['event'] = $getCalendarEventEvent->getCalendarEventHtml();
 
-		$template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
-		$buffer   = $template->parse($context);
+        $template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
+        $buffer   = $template->parse($context);
 
-		$event->setRenderedContent($buffer);
-	}
+        $event->setRenderedContent($buffer);
+    }
 }
