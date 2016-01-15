@@ -43,7 +43,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Avisota\\Contao\\Message\\Element\\Event": "src/"
         }
     },
