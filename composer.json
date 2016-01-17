@@ -44,7 +44,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Avisota\\Contao\\Message\\Element\\Event": "src/"
+            "Avisota\\Contao\\Message\\Element\\Event\\": "src/"
         }
     },
     "extra": {
