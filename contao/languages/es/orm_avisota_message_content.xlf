@@ -1,0 +1,22 @@
+<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="php" date="2014-08-26T04:03:02+02:00" original="orm_avisota_message_content" source-language="en" target-language="es">
+    <body>
+      <trans-unit id="orm_avisota_message_content.eventTemplate.0">
+        <source>Event template</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_message_content.eventTemplate.1">
+        <source>Please choose the event template.</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_message_content.eventIdWithTimestamp.0">
+        <source>Event</source>
+        
+      </trans-unit>
+      <trans-unit id="orm_avisota_message_content.eventIdWithTimestamp.1">
+        <source>Please choose the event to include.</source>
+        
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

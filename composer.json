@@ -44,19 +44,13 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Avisota\\Contao\\Message\\Element\\Event": "src/"
+            "Avisota\\Contao\\Message\\Element\\Event\\": "src/"
         }
     },
     "extra": {
         "contao": {
             "sources": {
                 "contao": "system/modules/avisota-message-element-event"
-            },
-            "transifex": {
-                "project": "avisota-contao",
-                "prefix": "contao-message-element-event-",
-                "languages_cto": "contao/languages",
-                "languages_tx": ".tx"
             }
         },
         "branch-alias": {
