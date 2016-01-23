@@ -112,6 +112,7 @@ class SelectriEventsEventNode implements \SelectriNode
 
     /**
      * @return string
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function getLabel()
     {
