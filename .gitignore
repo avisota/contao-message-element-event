@@ -16,3 +16,4 @@ module/.skip
 
 # dependencies
 vendor
+composer.lock
