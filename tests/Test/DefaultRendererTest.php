@@ -22,7 +22,6 @@ namespace Avisota\Test\Contao\Message\Element\Event;
  */
 class DefaultRendererTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testRenderContent()
     {
     }
