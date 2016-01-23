@@ -49,7 +49,7 @@ class DefaultRenderer implements EventSubscriberInterface
      *
      * @return array The event names to listen to
      */
-    static public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return array(
             AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
