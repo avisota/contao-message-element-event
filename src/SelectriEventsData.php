@@ -145,6 +145,7 @@ class SelectriEventsData implements \SelectriData
      *                           representation or null
      *
      * @return \Iterator<SelectriNode> An iterator over nodes
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getTreeIterator($start = null)
     {
@@ -162,6 +163,7 @@ class SelectriEventsData implements \SelectriData
      *                    representation
      *
      * @return \Iterator<SelectriNode> An iterator over the root nodes
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getPathIterator($key)
     {
@@ -195,6 +197,9 @@ class SelectriEventsData implements \SelectriData
      * @param array $searchKeywords
      *
      * @return \ArrayIterator
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function fetchNodes(array $searchKeywords = array())
     {
@@ -286,8 +291,8 @@ class SelectriEventsData implements \SelectriData
         if ($generateFlat) {
             usort(
                 $nodes,
-                function (SelectriEventsEventNode $a, SelectriEventsEventNode $b) {
-                    return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
+                function (SelectriEventsEventNode $primary, SelectriEventsEventNode $secondary) {
+                    return $primary->getDate()->getTimestamp() - $secondary->getDate()->getTimestamp();
                 }
             );
         } else {

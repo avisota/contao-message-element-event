@@ -45,6 +45,11 @@
             "Avisota\\Contao\\Message\\Element\\Event\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Avisota\\Test\\Contao\\Message\\Element\\Event\\": "tests/Test/"
+        }
+    },
     "extra": {
         "contao": {
             "sources": {

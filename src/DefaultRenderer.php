@@ -25,7 +25,6 @@ use ContaoCommunityAlliance\Contao\Bindings\Events\Calendar\GetCalendarEventEven
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-
 /**
  * Class DefaultRenderer
  */
@@ -49,7 +48,7 @@ class DefaultRenderer implements EventSubscriberInterface
      *
      * @return array The event names to listen to
      */
-    static public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return array(
             AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
@@ -64,7 +63,9 @@ class DefaultRenderer implements EventSubscriberInterface
      * @return string
      * @internal param MessageContent $content
      * @internal param RecipientInterface $recipient
-     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.LongVariable)
+     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function renderContent(RenderMessageContentEvent $event)
     {
