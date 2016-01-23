@@ -291,8 +291,8 @@ class SelectriEventsData implements \SelectriData
         if ($generateFlat) {
             usort(
                 $nodes,
-                function (SelectriEventsEventNode $a, SelectriEventsEventNode $b) {
-                    return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
+                function (SelectriEventsEventNode $primary, SelectriEventsEventNode $secondary) {
+                    return $primary->getDate()->getTimestamp() - $secondary->getDate()->getTimestamp();
                 }
             );
         } else {
