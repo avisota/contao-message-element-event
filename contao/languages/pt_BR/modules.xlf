@@ -3,6 +3,7 @@
     <body>
       <trans-unit id="MOD.avisota-message-element-event.0">
         <source>Avisota - Message element &quot;Event&quot;</source>
+        <target>Avisota - Elemento de mensagem &quot;Eventos&quot;</target>
         
       </trans-unit>
       <trans-unit id="MOD.avisota-message-element-event.1">
