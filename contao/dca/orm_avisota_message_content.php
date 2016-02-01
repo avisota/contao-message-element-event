@@ -32,9 +32,7 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
     'inputType' => 'selectri',
     'eval'      => array(
         'min'  => 1,
-        'data' => function () {
-            return \Avisota\Contao\Message\Element\Event\SelectriEventsDataFactory::create();
-        },
+        'data' => \Avisota\Contao\Message\Element\Event\SelectriEventsDataFactory::create(),
     ),
     'field'     => array(
         'type'     => 'string',
