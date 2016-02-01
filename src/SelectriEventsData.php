@@ -22,7 +22,6 @@ use SelectriWidget;
  */
 class SelectriEventsData implements \SelectriData
 {
-
     /**
      * @var SelectriWidget
      */

@@ -20,7 +20,6 @@ namespace Avisota\Contao\Message\Element\Event;
  */
 class SelectriEventsEventNode implements \SelectriNode
 {
-
     /**
      * @var SelectriEventsData
      */

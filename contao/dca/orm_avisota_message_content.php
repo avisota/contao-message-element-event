@@ -39,6 +39,7 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
         'nullable' => true,
     ),
 );
+
 $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate']        = array
 (
     'label'            => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate'],
