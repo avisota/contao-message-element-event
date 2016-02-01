@@ -145,11 +145,14 @@ class SelectriEventsData implements \SelectriData
      *                           representation or null
      *
      * @return \Iterator<SelectriNode> An iterator over nodes
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getTreeIterator($start = null)
     {
-        return array($this->fetchNodes(), 0);
+        if (!$start) {
+            $start = 0;
+        }
+
+        return array($this->fetchNodes(), $start);
     }
 
     /**
@@ -163,11 +166,10 @@ class SelectriEventsData implements \SelectriData
      *                    representation
      *
      * @return \Iterator<SelectriNode> An iterator over the root nodes
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getPathIterator($key)
     {
-        return new \EmptyIterator();
+        return new \EmptyIterator($key);
     }
 
     /**
