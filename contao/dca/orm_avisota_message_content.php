@@ -44,11 +44,13 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate']    
     'label'            => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate'],
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::createTemplateGroupCallback(
-        'event_'
-    ),
     'field'            => array(
         'type'     => 'string',
         'nullable' => true,
     ),
+    'options_callback' =>
+        \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::
+        createTemplateGroupCallback(
+            'event_'
+        ),
 );

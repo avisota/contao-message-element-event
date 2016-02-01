@@ -42,7 +42,9 @@ class Version20140825 extends AbstractMigration
             return;
         }
 
-        $this->addSql('ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL');
+        $this->addSql(
+            'ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL'
+        );
     }
 
     /**
