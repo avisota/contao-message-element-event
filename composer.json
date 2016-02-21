@@ -29,10 +29,10 @@
     },
     "require": {
         "php": ">=5.4",
+        "contao/core": ">=3.5,<3.6",
+        "contao-community-alliance/composer-plugin": "~2.4",
         "avisota/contao-message": "3.0.x-dev",
         "avisota/contao-message-element-headline": "3.0.x-dev",
-        "contao-community-alliance/composer-plugin": "~2.4",
-        "contao/core": ">=3.5,<3.6",
         "backboneit/contao-selectri": "~2.0"
     },
     "require-dev": {
