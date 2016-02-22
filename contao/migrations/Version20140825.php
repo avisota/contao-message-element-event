@@ -29,6 +29,7 @@ class Version20140825 extends AbstractMigration
      * @param Schema $schema
      *
      * @throws \Doctrine\DBAL\Schema\SchemaException
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function up(Schema $schema)
     {
@@ -42,11 +43,15 @@ class Version20140825 extends AbstractMigration
             return;
         }
 
-        $this->addSql('ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL');
+        $this->addSql(
+            'ALTER TABLE orm_avisota_message_content CHANGE eventId eventIdWithTimestamp VARCHAR(255) DEFAULT NULL'
+        );
     }
 
     /**
      * @param Schema $schema
+     * @SuppressWarnings(PHPMD.ShortMethodName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function down(Schema $schema)
     {

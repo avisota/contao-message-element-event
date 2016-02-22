@@ -20,7 +20,6 @@ namespace Avisota\Contao\Message\Element\Event;
  */
 class SelectriEventsEventNode implements \SelectriNode
 {
-
     /**
      * @var SelectriEventsData
      */
@@ -112,11 +111,10 @@ class SelectriEventsEventNode implements \SelectriNode
 
     /**
      * @return string
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function getLabel()
     {
-        $label = $this->date->format($GLOBALS['TL_CONFIG']['dateFormat']);
+        $label = $this->date->format(\Input::get('dateFormat'));
 
         if ($this->row['addTime']) {
             $label .= ' ' . date('H:i', $this->row['startTime']);
@@ -132,7 +130,7 @@ class SelectriEventsEventNode implements \SelectriNode
             $endDate = clone $this->date;
             $endDate->add(new \DateInterval(sprintf('PT%dS', $seconds)));
 
-            $label .= ' ' . $endDate->format($GLOBALS['TL_CONFIG']['dateFormat']);
+            $label .= ' ' . $endDate->format(\Input::get('dateFormat'));
         }
 
         if ($this->row['addTime']) {

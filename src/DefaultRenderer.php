@@ -63,12 +63,11 @@ class DefaultRenderer implements EventSubscriberInterface
      * @return string
      * @internal param MessageContent $content
      * @internal param RecipientInterface $recipient
-     * @SuppressWarnings(PHPMD.ShortVariable)
-     * @SuppressWarnings(PHPMD.LongVariable)
-     * @SuppressWarnings(PHPMD.Superglobals)
      */
     public function renderContent(RenderMessageContentEvent $event)
     {
+        global $container;
+
         $content = $event->getMessageContent();
 
         if ($content->getType() != 'event' || $event->getRenderedContent()) {
@@ -76,9 +75,9 @@ class DefaultRenderer implements EventSubscriberInterface
         }
 
         /** @var EntityAccessor $entityAccessor */
-        $entityAccessor = $GLOBALS['container']['doctrine.orm.entityAccessor'];
+        $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
-        list($id, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
+        list($calendarEventId, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
 
         if ($timestamp) {
             $date = new \DateTime();
@@ -87,18 +86,18 @@ class DefaultRenderer implements EventSubscriberInterface
             $date = null;
         }
 
-        $getCalendarEventEvent = new GetCalendarEventEvent(
-            $id,
+        $calendarEventEvent = new GetCalendarEventEvent(
+            $calendarEventId,
             $date,
             $content->getEventTemplate()
         );
 
         /** @var EventDispatcher $eventDispatcher */
-        $eventDispatcher = $GLOBALS['container']['event-dispatcher'];
-        $eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $getCalendarEventEvent);
+        $eventDispatcher = $container['event-dispatcher'];
+        $eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $calendarEventEvent);
 
         $context          = $entityAccessor->getProperties($content);
-        $context['event'] = $getCalendarEventEvent->getCalendarEventHtml();
+        $context['event'] = $calendarEventEvent->getCalendarEventHtml();
 
         $template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
         $buffer   = $template->parse($context);
