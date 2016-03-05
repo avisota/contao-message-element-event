@@ -114,7 +114,7 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getLabel()
     {
-        $label = $this->date->format(\Input::get('dateFormat'));
+        $label = $this->date->format(\Config::get('dateFormat'));
 
         if ($this->row['addTime']) {
             $label .= ' ' . date('H:i', $this->row['startTime']);
@@ -130,7 +130,7 @@ class SelectriEventsEventNode implements \SelectriNode
             $endDate = clone $this->date;
             $endDate->add(new \DateInterval(sprintf('PT%dS', $seconds)));
 
-            $label .= ' ' . $endDate->format(\Input::get('dateFormat'));
+            $label .= ' ' . $endDate->format(\Config::get('dateFormat'));
         }
 
         if ($this->row['addTime']) {
