@@ -168,10 +168,6 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getIcon()
     {
-        if (version_compare(VERSION, '3', '<')) {
-            return 'system/modules/calendar/html/icon.gif';
-        }
-
         return 'system/modules/calendar/assets/icon.gif';
     }
 
