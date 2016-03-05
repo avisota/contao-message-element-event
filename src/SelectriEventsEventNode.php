@@ -138,6 +138,7 @@ class SelectriEventsEventNode implements \SelectriNode
         }
 
         $label .= ': ' . $this->row['title'];
+        $label .= '<span style="color: grey;"> [' . \CalendarModel::findByPk($this->row['pid'])->title . ']</span>';
 
         return $label;
     }
