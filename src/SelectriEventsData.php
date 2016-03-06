@@ -214,6 +214,9 @@ class SelectriEventsData implements \SelectriData
         $where = array('(startDate > ? OR recurring = 1)');
         $args  = array($begin->getTimestamp());
 
+        $where[] = '(published = ?)';
+        $args[]  = 1;
+
         if (count($searchKeywords)) {
             $where[] = '(' . substr(str_repeat(' OR title LIKE ?', count($searchKeywords)), 4) . ')';
 
