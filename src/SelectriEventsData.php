@@ -211,11 +211,8 @@ class SelectriEventsData implements \SelectriData
         $end = clone $begin;
         $end->add(new \DateInterval('P1Y1M'));
 
-        $where = array('(startDate > ? OR recurring = 1)');
-        $args  = array($begin->getTimestamp());
-
-        $where[] = '(published = ?)';
-        $args[]  = 1;
+        $where = array('(id > ?)');
+        $args  = array(0);
 
         if (count($searchKeywords)) {
             $where[] = '(' . substr(str_repeat(' OR title LIKE ?', count($searchKeywords)), 4) . ')';
