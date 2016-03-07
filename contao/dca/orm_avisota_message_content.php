@@ -49,9 +49,4 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate']    
         'type'     => 'string',
         'nullable' => true,
     ),
-    'options_callback' =>
-        \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::
-        createTemplateGroupCallback(
-            'event_'
-        ),
 );
