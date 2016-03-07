@@ -16,6 +16,7 @@
 namespace Avisota\Contao\Message\Element\Event;
 
 use Avisota\Contao\Core\Message\Renderer;
+use Avisota\Contao\Entity\MessageContent;
 use Avisota\Contao\Message\Core\Event\AvisotaMessageEvents;
 use Avisota\Contao\Message\Core\Event\RenderMessageContentEvent;
 use Contao\Doctrine\ORM\Entity;
@@ -86,10 +87,12 @@ class DefaultRenderer implements EventSubscriberInterface
             $date = null;
         }
 
-        $calendarEventEvent = new GetCalendarEventEvent(
+
+        $contentEventTemplate = $this->findEventTemplate($content);
+        $calendarEventEvent   = new GetCalendarEventEvent(
             $calendarEventId,
             $date,
-            $content->getEventTemplate()
+            $contentEventTemplate
         );
 
         /** @var EventDispatcher $eventDispatcher */
@@ -101,7 +104,83 @@ class DefaultRenderer implements EventSubscriberInterface
 
         $template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
         $buffer   = $template->parse($context);
+        $this->removeMicroTimeTemplate($content, $contentEventTemplate);
 
         $event->setRenderedContent($buffer);
+    }
+
+    protected function findEventTemplate(MessageContent $content)
+    {
+        $messageCategory = $content->getMessage()->getCategory();
+        $messageTheme    = $messageCategory->getLayout()->getTheme();
+
+        $template = null;
+        if ($messageTheme->getTemplateDirectory()
+            && file_exists(TL_ROOT . '/templates/' . $messageTheme->getTemplateDirectory() . '/' . $content->getEventTemplate() . '.html5')
+        ) {
+            $template = $this->copyTemplateInRootTemplates(
+                $messageTheme->getTemplateDirectory() . '/' . $content->getEventTemplate(),
+                '.' . microtime(true)
+            );
+        }
+        if (!$template
+            && $messageCategory->getViewOnlinePage() > 0
+        ) {
+            $viewOnlinePage = \PageModel::findByPk($messageCategory->getViewOnlinePage());
+
+            $pageTheme = null;
+            if ($viewOnlinePage) {
+                $viewOnlinePage->loadDetails();
+                $pageTheme = $viewOnlinePage->getRelated('layout')->getRelated('pid');
+            }
+
+            if ($pageTheme
+                && file_exists(TL_ROOT . '/' . $pageTheme->templates . '/' . $content->getEventTemplate() . '.html5')
+            ) {
+                $source = $pageTheme->templates;
+                $chunks = explode('/', $source);
+                if (count($chunks) > 1) {
+                    if (in_array('templates', array_values($chunks))) {
+                        $unset = array_flip($chunks)['templates'];
+                        unset($chunks[$unset]);
+                    }
+                }
+                $source = implode('/', $chunks);
+
+                $template = $this->copyTemplateInRootTemplates(
+                    $source . '/' . $content->getEventTemplate(),
+                    '.' . microtime(true)
+                );
+            }
+        }
+
+        if (!$template) {
+            $template = $content->getEventTemplate();
+        }
+
+
+        return $template;
+    }
+
+    protected function copyTemplateInRootTemplates($source, $destination)
+    {
+        $sourceFile = new \File('templates/' . $source . '.html5');
+        $sourceFile->copyTo('templates/' . $destination . '.html5');
+
+        return $destination;
+    }
+
+    protected function removeMicroTimeTemplate(MessageContent $content, $remove)
+    {
+        if ($content->getEventTemplate() === $remove) {
+            return;
+        }
+
+        $removeFile = new \File('templates/' . $remove . '.html5', true);
+        if (!$removeFile->exists()) {
+            return;
+        }
+
+        $removeFile->delete();
     }
 }
