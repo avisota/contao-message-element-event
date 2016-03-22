@@ -70,7 +70,7 @@ class OptionsBuilder implements EventSubscriberInterface
         /** @var MessageContent $messageContent */
         $messageContent = $event->getModel()->getEntity();
         $theme          = $messageContent->getMessage()->getCategory()->getLayout()->getTheme();
-        if (empty($theme->getTemplateDirectory())) {
+        if (!$theme->getTemplateDirectory()) {
             $event->setOptions($options);
 
             return;
