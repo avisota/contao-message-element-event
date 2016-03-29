@@ -32,6 +32,7 @@
         "php": ">=5.4",
         "contao/core": ">=3.5,<3.6",
         "contao-community-alliance/composer-plugin": "~2.4",
+        "avisota/contao-core": "3.1.x-dev",
         "avisota/contao-message": "3.2.x-dev",
         "avisota/contao-message-element-headline": "3.1.x-dev",
         "backboneit/contao-selectri": "~2.0"
