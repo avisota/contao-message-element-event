@@ -1,6 +1,7 @@
 {
     "name": "avisota/contao-message-element-event",
     "description": "The event message element.",
+    "version": "3.1.x-dev",
     "keywords": [
         "avisota",
         "email",
@@ -57,7 +58,8 @@
             }
         },
         "branch-alias": {
-            "dev-develop": "3.0.x-dev"
+            "dev-develop": "3.0.x-dev",
+            "dev-release/3.1.0": "3.1.x-dev"
         }
     }
 }
