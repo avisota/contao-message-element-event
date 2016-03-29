@@ -149,6 +149,9 @@ class SelectriEventsEventNode implements \SelectriNode
         return $label;
     }
 
+    /**
+     * @return string
+     */
     protected function getInfo()
     {
         $info = '<div style="margin-left: 16px; padding-top: 6px">';
@@ -160,6 +163,9 @@ class SelectriEventsEventNode implements \SelectriNode
         return $info;
     }
 
+    /**
+     * @return string
+     */
     protected function getEditButton()
     {
         $urlBuilder = new UrlBuilder();
@@ -175,6 +181,9 @@ class SelectriEventsEventNode implements \SelectriNode
         return $button;
     }
 
+    /**
+     * @return string
+     */
     protected function getHeaderButton()
     {
         $urlBuilder = new UrlBuilder();
@@ -191,6 +200,9 @@ class SelectriEventsEventNode implements \SelectriNode
         return $button;
     }
 
+    /**
+     * @return string
+     */
     protected function getPublishedIcon()
     {
         $icon = 'visible.gif';
@@ -201,6 +213,11 @@ class SelectriEventsEventNode implements \SelectriNode
         return $this->getOperationImage($icon);
     }
 
+    /**
+     * @param $icon
+     *
+     * @return string
+     */
     protected function getOperationImage($icon)
     {
         global $container;
@@ -220,6 +237,9 @@ class SelectriEventsEventNode implements \SelectriNode
         return $imageEvent->getHtml();
     }
 
+    /**
+     * @return string
+     */
     protected function getOnClickOpenModalIFrame()
     {
         return 'onclick="Backend.openModalIframe({\'width\':768,\'url\':this.href});return false"';

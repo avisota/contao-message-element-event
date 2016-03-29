@@ -22,6 +22,11 @@ use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPr
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class OptionsBuilder
+ *
+ * @package Avisota\Contao\Message\Element\Event\DataContainer
+ */
 class OptionsBuilder implements EventSubscriberInterface
 {
 
@@ -52,6 +57,11 @@ class OptionsBuilder implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @param GetPropertyOptionsEvent $event
+     * @param                         $name
+     * @param EventDispatcher         $eventDispatcher
+     */
     public function eventTemplateOptions(GetPropertyOptionsEvent $event, $name, EventDispatcher $eventDispatcher)
     {
         $environment    = $event->getEnvironment();
