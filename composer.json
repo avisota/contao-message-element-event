@@ -35,7 +35,7 @@
         "avisota/contao-core": "3.1.x-dev",
         "avisota/contao-message": "3.2.x-dev",
         "avisota/contao-message-element-headline": "3.1.x-dev",
-        "backboneit/contao-selectri": "~2.0"
+        "hofff/contao-selectri": "3.x-dev"
     },
     "require-dev": {
         "phpcq/all-tasks": "~1.1"
