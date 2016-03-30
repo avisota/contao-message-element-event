@@ -16,6 +16,7 @@
 namespace Avisota\Contao\Message\Element\Event;
 
 use Avisota\Contao\Core\Message\Renderer;
+use Avisota\Contao\Entity\MessageContent;
 use Avisota\Contao\Message\Core\Event\AvisotaMessageEvents;
 use Avisota\Contao\Message\Core\Event\RenderMessageContentEvent;
 use Contao\Doctrine\ORM\Entity;
@@ -51,7 +52,9 @@ class DefaultRenderer implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
+            AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => array(
+                array('renderContent'),
+            ),
         );
     }
 
