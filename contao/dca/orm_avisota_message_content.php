@@ -32,7 +32,7 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
     'inputType' => 'selectri',
     'eval'      => array(
         'min'  => 1,
-        'data' => \Avisota\Contao\Message\Element\Event\SelectriEventsDataFactory::create(),
+        'data' => 'Avisota\Contao\Message\Element\Event\DataContainer\SelectriEventsDataFactory',
     ),
     'field'     => array(
         'type'     => 'string',
@@ -49,9 +49,4 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate']    
         'type'     => 'string',
         'nullable' => true,
     ),
-    'options_callback' =>
-        \ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory::
-        createTemplateGroupCallback(
-            'event_'
-        ),
 );

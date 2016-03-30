@@ -13,20 +13,25 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Message\Element\Event;
+namespace Avisota\Contao\Message\Element\Event\DataContainer;
+
+use Hofff\Contao\Selectri\Model\Flat\SQLListDataFactory;
+use Hofff\Contao\Selectri\Widget;
 
 /**
  * Class SelectriEventsDataFactory
  */
-class SelectriEventsDataFactory extends \SelectriAbstractDataFactory
+class SelectriEventsDataFactory extends SQLListDataFactory
 {
     /**
-     * @return \SelectriData A new data instance
+     * @param Widget $widget
+     *
+     * @return SelectriEventsDataFactory A new data instance
      */
-    public function createData()
+    public function createData(Widget $widget = null)
     {
         $data = new SelectriEventsData();
-        $data->setWidget($this->getWidget());
+        $data->setWidget($widget);
         return $data;
     }
 }

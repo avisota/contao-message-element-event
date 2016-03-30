@@ -13,12 +13,18 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Message\Element\Event;
+namespace Avisota\Contao\Message\Element\Event\DataContainer;
+
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
+use ContaoCommunityAlliance\UrlBuilder\UrlBuilder;
+use Hofff\Contao\Selectri\Model\Node;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class SelectriEventsEventNode
  */
-class SelectriEventsEventNode implements \SelectriNode
+class SelectriEventsEventNode implements Node
 {
     /**
      * @var SelectriEventsData
@@ -114,32 +120,10 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getLabel()
     {
-        $label = $this->date->format(\Input::get('dateFormat'));
+        $monthNode = new SelectriEventsMonthNode($this->data, $this->getDate());
+        $monthNode->addEvents(array($this));
 
-        if ($this->row['addTime']) {
-            $label .= ' ' . date('H:i', $this->row['startTime']);
-        }
-
-        if ($this->row['endDate'] || $this->row['addTime']) {
-            $label .= ' -';
-        }
-
-        if ($this->row['endDate'] && $this->row['endDate'] > $this->row['startDate']) {
-            $seconds = $this->row['endDate'] - $this->row['startDate'];
-
-            $endDate = clone $this->date;
-            $endDate->add(new \DateInterval(sprintf('PT%dS', $seconds)));
-
-            $label .= ' ' . $endDate->format(\Input::get('dateFormat'));
-        }
-
-        if ($this->row['addTime']) {
-            $label .= ' ' . date('H:i', $this->row['endTime']);
-        }
-
-        $label .= ': ' . $this->row['title'];
-
-        return $label;
+        return $monthNode->getLabel();
     }
 
     /**
@@ -168,10 +152,6 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getIcon()
     {
-        if (version_compare(VERSION, '3', '<')) {
-            return 'system/modules/calendar/html/icon.gif';
-        }
-
         return 'system/modules/calendar/assets/icon.gif';
     }
 
