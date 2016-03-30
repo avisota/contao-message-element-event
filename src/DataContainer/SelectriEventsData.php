@@ -22,6 +22,7 @@ use SelectriWidget;
 
 /**
  * Class SelectriEventsData
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SelectriEventsData extends AbstractData
 {

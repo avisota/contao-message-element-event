@@ -23,6 +23,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class SelectriEventsMonthNode
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SelectriEventsMonthNode implements Node
 {
