@@ -13,18 +13,28 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Message\Element\Event;
+namespace Avisota\Contao\Message\Element\Event\DataContainer;
+
+use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
+use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
+use ContaoCommunityAlliance\UrlBuilder\UrlBuilder;
+use Hofff\Contao\Selectri\Model\Node;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * Class SelectriEventsMonthNode
+ * Class SelectriEventsEventNode
  */
-class SelectriEventsMonthNode implements \SelectriNode
+class SelectriEventsEventNode implements Node
 {
-
     /**
      * @var SelectriEventsData
      */
     protected $data;
+
+    /**
+     * @var array
+     */
+    protected $row;
 
     /**
      * @var \DateTime
@@ -32,26 +42,30 @@ class SelectriEventsMonthNode implements \SelectriNode
     protected $date;
 
     /**
-     * @var SelectriEventsEventNode[]
+     * @var SelectriEventsMonthNode
      */
-    protected $events;
+    protected $month;
 
     /**
-     * @var bool
-     */
-    protected $isSorted = false;
-
-    /**
-     * SelectriEventsMonthNode constructor.
+     * SelectriEventsEventNode constructor.
      *
      * @param SelectriEventsData $data
+     * @param                    $row
      * @param \DateTime          $date
      */
-    public function __construct(SelectriEventsData $data, \DateTime $date)
+    public function __construct(SelectriEventsData $data, $row, \DateTime $date)
     {
-        $this->data   = $data;
-        $this->date   = $date;
-        $this->events = array();
+        $this->data = $data;
+        $this->row  = $row;
+        $this->date = $date;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRow()
+    {
+        return $this->row;
     }
 
     /**
@@ -63,49 +77,25 @@ class SelectriEventsMonthNode implements \SelectriNode
     }
 
     /**
-     * @return SelectriEventsEventNode[]
+     * @return SelectriEventsMonthNode
      */
-    public function getEvents()
+    public function getMonth()
     {
-        return $this->events;
-    }
-
-    /**
-     * @param SelectriEventsEventNode[] $events
-     *
-     * @return static
-     */
-    public function setEvents(array $events)
-    {
-        $this->events = array();
-        $this->addEvents($events);
-        return $this;
-    }
-
-    /**
-     * @param SelectriEventsEventNode[] $events
-     *
-     * @return static
-     */
-    public function addEvents(array $events)
-    {
-        foreach ($events as $event) {
-            $this->addEvent($event);
+        if ($this->month) {
+            return $this->month;
         }
-        return $this;
+
+        return new SelectriEventsMonthNode($this->data, $this->date);
     }
 
     /**
-     * @param SelectriEventsEventNode $event
+     * @param SelectriEventsMonthNode $month
      *
      * @return static
-     * @internal param SelectriEventsEventNode $events
-     *
      */
-    public function addEvent(SelectriEventsEventNode $event)
+    public function setMonth($month)
     {
-        $this->events[] = $event;
-        $event->setMonth($this);
+        $this->month = $month;
         return $this;
     }
 
@@ -114,7 +104,7 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function getKey()
     {
-        return $this->date->format('Y-m');
+        return $this->row['id'] . '@' . $this->date->getTimestamp();
     }
 
     /**
@@ -122,7 +112,7 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function getData()
     {
-        return array('date' => $this->date->getTimestamp());
+        return $this->row;
     }
 
     /**
@@ -130,7 +120,10 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function getLabel()
     {
-        return $this->date->format('Y F');
+        $monthNode = new SelectriEventsMonthNode($this->data, $this->getDate());
+        $monthNode->addEvents(array($this));
+
+        return $monthNode->getLabel();
     }
 
     /**
@@ -167,7 +160,7 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function isSelectable()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -175,7 +168,7 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function isOpen()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -183,15 +176,15 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function hasPath()
     {
-        return false;
+        return true;
     }
 
     /**
-     * @return \EmptyIterator
+     * @return \ArrayIterator
      */
     public function getPathIterator()
     {
-        return new \EmptyIterator();
+        return new \ArrayIterator(array($this->getMonth()));
     }
 
     /**
@@ -199,7 +192,7 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function hasItems()
     {
-        return (bool) count($this->events);
+        return false;
     }
 
     /**
@@ -215,24 +208,14 @@ class SelectriEventsMonthNode implements \SelectriNode
      */
     public function hasSelectableDescendants()
     {
-        return true;
+        return false;
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \EmptyIterator
      */
     public function getChildrenIterator()
     {
-        if (!$this->isSorted) {
-            usort(
-                $this->events,
-                function (SelectriEventsEventNode $primary, SelectriEventsEventNode $secondary) {
-                    return $primary->getDate()->getTimestamp() - $secondary->getDate()->getTimestamp();
-                }
-            );
-            $this->isSorted = true;
-        }
-
-        return new \ArrayIterator($this->events);
+        return new \EmptyIterator();
     }
 }

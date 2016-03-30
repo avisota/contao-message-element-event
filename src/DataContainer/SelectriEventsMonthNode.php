@@ -13,27 +13,24 @@
  * @filesource
  */
 
-namespace Avisota\Contao\Message\Element\Event;
+namespace Avisota\Contao\Message\Element\Event\DataContainer;
 
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Image\GenerateHtmlEvent;
 use ContaoCommunityAlliance\UrlBuilder\UrlBuilder;
+use Hofff\Contao\Selectri\Model\Node;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * Class SelectriEventsEventNode
+ * Class SelectriEventsMonthNode
  */
-class SelectriEventsEventNode implements \SelectriNode
+class SelectriEventsMonthNode implements Node
 {
+
     /**
      * @var SelectriEventsData
      */
     protected $data;
-
-    /**
-     * @var array
-     */
-    protected $row;
 
     /**
      * @var \DateTime
@@ -41,30 +38,26 @@ class SelectriEventsEventNode implements \SelectriNode
     protected $date;
 
     /**
-     * @var SelectriEventsMonthNode
+     * @var SelectriEventsEventNode[]
      */
-    protected $month;
+    protected $events;
 
     /**
-     * SelectriEventsEventNode constructor.
+     * @var bool
+     */
+    protected $isSorted = false;
+
+    /**
+     * SelectriEventsMonthNode constructor.
      *
      * @param SelectriEventsData $data
-     * @param                    $row
      * @param \DateTime          $date
      */
-    public function __construct(SelectriEventsData $data, $row, \DateTime $date)
+    public function __construct(SelectriEventsData $data, \DateTime $date)
     {
-        $this->data = $data;
-        $this->row  = $row;
-        $this->date = $date;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRow()
-    {
-        return $this->row;
+        $this->data   = $data;
+        $this->date   = $date;
+        $this->events = array();
     }
 
     /**
@@ -76,25 +69,49 @@ class SelectriEventsEventNode implements \SelectriNode
     }
 
     /**
-     * @return SelectriEventsMonthNode
+     * @return SelectriEventsEventNode[]
      */
-    public function getMonth()
+    public function getEvents()
     {
-        if ($this->month) {
-            return $this->month;
-        }
-
-        return new SelectriEventsMonthNode($this->data, $this->date);
+        return $this->events;
     }
 
     /**
-     * @param SelectriEventsMonthNode $month
+     * @param SelectriEventsEventNode[] $events
      *
      * @return static
      */
-    public function setMonth($month)
+    public function setEvents(array $events)
     {
-        $this->month = $month;
+        $this->events = array();
+        $this->addEvents($events);
+        return $this;
+    }
+
+    /**
+     * @param SelectriEventsEventNode[] $events
+     *
+     * @return static
+     */
+    public function addEvents(array $events)
+    {
+        foreach ($events as $event) {
+            $this->addEvent($event);
+        }
+        return $this;
+    }
+
+    /**
+     * @param SelectriEventsEventNode $event
+     *
+     * @return static
+     * @internal param SelectriEventsEventNode $events
+     *
+     */
+    public function addEvent(SelectriEventsEventNode $event)
+    {
+        $this->events[] = $event;
+        $event->setMonth($this);
         return $this;
     }
 
@@ -103,7 +120,7 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getKey()
     {
-        return $this->row['id'] . '@' . $this->date->getTimestamp();
+        return $this->date->format('Y-m');
     }
 
     /**
@@ -111,7 +128,7 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getData()
     {
-        return $this->row;
+        return array('date' => $this->date->getTimestamp());
     }
 
     /**
@@ -119,18 +136,25 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function getLabel()
     {
-        $label = $this->date->format(\Config::get('dateFormat'));
-
-        if ($this->row['addTime']) {
-            $label .= ' ' . date('H:i', $this->row['startTime']);
+        /** @var SelectriEventsEventNode $newsNode */
+        $newsNode = $this->getEvents()[0];
+        if (!$newsNode) {
+            return $this->date->format('Y F');
         }
 
-        if ($this->row['endDate'] || $this->row['addTime']) {
+        $eventsData = $newsNode->getRow();
+        $label = $this->date->format(\Config::get('dateFormat'));
+
+        if ($eventsData['addTime']) {
+            $label .= ' ' . date('H:i', $eventsData['startTime']);
+        }
+
+        if ($eventsData['endDate'] || $eventsData['addTime']) {
             $label .= ' -';
         }
 
-        if ($this->row['endDate'] && $this->row['endDate'] > $this->row['startDate']) {
-            $seconds = $this->row['endDate'] - $this->row['startDate'];
+        if ($eventsData['endDate'] && $eventsData['endDate'] > $eventsData['startDate']) {
+            $seconds = $eventsData['endDate'] - $eventsData['startDate'];
 
             $endDate = clone $this->date;
             $endDate->add(new \DateInterval(sprintf('PT%dS', $seconds)));
@@ -138,75 +162,89 @@ class SelectriEventsEventNode implements \SelectriNode
             $label .= ' ' . $endDate->format(\Config::get('dateFormat'));
         }
 
-        if ($this->row['addTime']) {
-            $label .= ' ' . date('H:i', $this->row['endTime']);
+        if ($eventsData['addTime']) {
+            $label .= ' ' . date('H:i', $eventsData['endTime']);
         }
 
-        $label .= ': ' . $this->row['title'];
-        $label .= '<span style="color: grey;"> [' . \CalendarModel::findByPk($this->row['pid'])->title . ']</span>';
-        $label .= $this->getInfo();
+        $label .= ': ' . $eventsData['title'];
+        $label .= '<span style="color: grey;"> [' . \CalendarModel::findByPk($eventsData['pid'])->title . ']</span>';
+        $label .= $this->getInfo($eventsData);
 
         return $label;
     }
 
     /**
+     * @param $eventsData
+     *
      * @return string
      */
-    protected function getInfo()
+    protected function getInfo($eventsData)
     {
         $info = '<div style="margin-left: 16px; padding-top: 6px">';
-        $info .= $this->getEditButton();
-        $info .= $this->getHeaderButton();
-        $info .= $this->getPublishedIcon();
+        $info .= $this->getEditButton($eventsData);
+        $info .= $this->getHeaderButton($eventsData);
+        $info .= $this->getPublishedIcon($eventsData);
         $info .= '</div>';
 
         return $info;
     }
 
     /**
+     * @param $eventsData
+     *
      * @return string
      */
-    protected function getEditButton()
+    protected function getEditButton($eventsData)
     {
         $urlBuilder = new UrlBuilder();
         $urlBuilder->setPath('contao/main.php')
             ->setQueryParameter('do', 'calendar')
             ->setQueryParameter('table', 'tl_content')
-            ->setQueryParameter('id', $this->row['id'])
+            ->setQueryParameter('id', $eventsData['id'])
             ->setQueryParameter('popup', 1)
             ->setQueryParameter('rt', \RequestToken::get());
 
-        $button = '<a href="' . $urlBuilder->getUrl() . '" ' . $this->getOnClickOpenModalIFrame() . '>' . $this->getOperationImage('edit.gif') . '</a>';
+        $button =
+            '<a href="' . $urlBuilder->getUrl() . '" ' . $this->getOnClickOpenModalIFrame() . '>'
+            . $this->getOperationImage('edit.gif')
+            . '</a>';
 
         return $button;
     }
 
     /**
+     * @param $eventsData
+     *
      * @return string
      */
-    protected function getHeaderButton()
+    protected function getHeaderButton($eventsData)
     {
         $urlBuilder = new UrlBuilder();
         $urlBuilder->setPath('contao/main.php')
             ->setQueryParameter('do', 'calendar')
             ->setQueryParameter('table', 'tl_calendar_events')
             ->setQueryParameter('act', 'edit')
-            ->setQueryParameter('id', $this->row['id'])
+            ->setQueryParameter('id', $eventsData['id'])
             ->setQueryParameter('popup', 1)
             ->setQueryParameter('rt', \RequestToken::get());
 
-        $button = '<a href="' . $urlBuilder->getUrl() . '" ' . $this->getOnClickOpenModalIFrame() . '>' . $this->getOperationImage('header.gif') . '</a>';
+        $button =
+            '<a href="' . $urlBuilder->getUrl() . '" ' . $this->getOnClickOpenModalIFrame() . '>'
+            . $this->getOperationImage('header.gif')
+            . '</a>';
 
         return $button;
     }
 
     /**
+     * @param $eventsData
+     *
      * @return string
      */
-    protected function getPublishedIcon()
+    protected function getPublishedIcon($eventsData)
     {
         $icon = 'visible.gif';
-        if ($this->row['published'] < 1) {
+        if ($eventsData['published'] < 1) {
             $icon = 'invisible.gif';
         }
 
@@ -279,7 +317,7 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function isSelectable()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -287,7 +325,7 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function isOpen()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -295,15 +333,15 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function hasPath()
     {
-        return true;
+        return false;
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \EmptyIterator
      */
     public function getPathIterator()
     {
-        return new \ArrayIterator(array($this->getMonth()));
+        return new \EmptyIterator();
     }
 
     /**
@@ -311,7 +349,7 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function hasItems()
     {
-        return false;
+        return (bool) count($this->events);
     }
 
     /**
@@ -327,14 +365,24 @@ class SelectriEventsEventNode implements \SelectriNode
      */
     public function hasSelectableDescendants()
     {
-        return false;
+        return true;
     }
 
     /**
-     * @return \EmptyIterator
+     * @return \ArrayIterator
      */
     public function getChildrenIterator()
     {
-        return new \EmptyIterator();
+        if (!$this->isSorted) {
+            usort(
+                $this->events,
+                function (SelectriEventsEventNode $primary, SelectriEventsEventNode $secondary) {
+                    return $primary->getDate()->getTimestamp() - $secondary->getDate()->getTimestamp();
+                }
+            );
+            $this->isSorted = true;
+        }
+
+        return new \ArrayIterator($this->events);
     }
 }
