@@ -44,7 +44,7 @@ class SelectriEventsData extends AbstractData
      *
      * @return static
      */
-    public function setWidget($widget)
+    public function setWidget(Widget $widget)
     {
         $this->widget = $widget;
         return $this;
