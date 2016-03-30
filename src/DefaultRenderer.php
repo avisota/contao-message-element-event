@@ -52,7 +52,9 @@ class DefaultRenderer implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => 'renderContent',
+            AvisotaMessageEvents::RENDER_MESSAGE_CONTENT => array(
+                array('renderContent'),
+            ),
         );
     }
 
@@ -87,7 +89,7 @@ class DefaultRenderer implements EventSubscriberInterface
             $date = null;
         }
 
-        $calendarEventEvent   = new GetCalendarEventEvent(
+        $calendarEventEvent = new GetCalendarEventEvent(
             $calendarEventId,
             $date,
             $content->getEventTemplate()
