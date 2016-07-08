@@ -29,7 +29,7 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
 (
     'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp'],
     'exclude'   => true,
-    'inputType' => 'selectri',
+    'inputType' => 'avisotaSelectriWithItems',
     'eval'      => array(
         'min'  => 1,
         'max'  => 99,
