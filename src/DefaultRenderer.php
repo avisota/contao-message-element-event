@@ -59,7 +59,7 @@ class DefaultRenderer implements EventSubscriberInterface
     }
 
     /**
-     * Render a single message content element.
+     * Render multiple message content elements.
      *
      * @param RenderMessageContentEvent $event
      *
@@ -80,30 +80,30 @@ class DefaultRenderer implements EventSubscriberInterface
         /** @var EntityAccessor $entityAccessor */
         $entityAccessor = $container['doctrine.orm.entityAccessor'];
 
-        list($calendarEventId, $timestamp) = explode('@', $content->getEventIdWithTimestamp());
-
-        if ($timestamp) {
-            $date = new \DateTime();
-            $date->setTimestamp($timestamp);
-        } else {
-            $date = null;
-        }
-
-        $calendarEventEvent = new GetCalendarEventEvent(
-            $calendarEventId,
-            $date,
-            $content->getEventTemplate()
-        );
-
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $container['event-dispatcher'];
-        $eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $calendarEventEvent);
 
-        $context          = $entityAccessor->getProperties($content);
-        $context['event'] = $calendarEventEvent->getCalendarEventHtml();
+        $contexts = array();
+        foreach ($content->getEventIdWithTimestamp() as $calendarEventId) {
+            $calendarEventEvent = new GetCalendarEventEvent(
+                $calendarEventId,
+                null,
+                $content->getEventTemplate()
+            );
 
-        $template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
-        $buffer   = $template->parse($context);
+            $eventDispatcher->dispatch(ContaoEvents::CALENDAR_GET_EVENT, $calendarEventEvent);
+
+            $context          = $entityAccessor->getProperties($content);
+            $context['event'] = $calendarEventEvent->getCalendarEventHtml();
+
+            array_push($contexts, $context);
+        }
+
+        $buffer = '';
+        foreach ($contexts as $context) {
+            $template = new \TwigTemplate('avisota/message/renderer/default/mce_event', 'html');
+            $buffer .= $template->parse($context);
+        }
 
         $event->setRenderedContent($buffer);
     }

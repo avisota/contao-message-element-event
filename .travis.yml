@@ -18,6 +18,7 @@ matrix:
 sudo: false
 
 before_install:
+  - COMPOSER_ROOT_VERSION=3.2.0
   - if [ -n "GITHUB_TOKEN" ]; then composer config github-oauth.github.com ${GITHUB_TOKEN}; fi;
 
 install:
