@@ -1,7 +1,6 @@
 {
     "name": "avisota/contao-message-element-event",
     "description": "The event message element.",
-    "version": "3.1.0",
     "keywords": [
         "avisota",
         "email",
@@ -35,7 +34,7 @@
         "avisota/contao-core": "~3.1",
         "avisota/contao-message": "~3.2",
         "avisota/contao-message-element-headline": "~3.1",
-        "hofff/contao-selectri": "~3.0"
+        "avisota/contao-selectri": "~3.0"
     },
     "require-dev": {
         "phpcq/all-tasks": "~1.1"
@@ -59,7 +58,7 @@
             }
         },
         "branch-alias": {
-            "dev-develop": "3.1.x-dev"
+            "dev-develop": "3.2.x-dev"
         }
     }
 }

@@ -29,13 +29,14 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
 (
     'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventIdWithTimestamp'],
     'exclude'   => true,
-    'inputType' => 'selectri',
+    'inputType' => 'avisotaSelectriWithItems',
     'eval'      => array(
         'min'  => 1,
-        'data' => 'Avisota\Contao\Message\Element\Event\DataContainer\SelectriEventsDataFactory',
+        'max'  => 99,
+        'data' => 'Avisota\Contao\Message\Element\Event\DataContainer\EventListDataFactory',
     ),
     'field'     => array(
-        'type'     => 'string',
+        'type'     => 'array',
         'nullable' => true,
     ),
 );
