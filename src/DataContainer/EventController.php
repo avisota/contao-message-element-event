@@ -119,7 +119,7 @@ class EventController extends SQLListData
      */
     public function getNodes(array $keys, $selectableOnly = true)
     {
-        $newsList = new EventListData($this->getWidget()->getData(), Database::getInstance());
+        $newsList = new EventListData($this->getWidget(), Database::getInstance());
 
         return $newsList->getNodes($keys, $selectableOnly);
     }
