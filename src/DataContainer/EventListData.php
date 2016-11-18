@@ -272,7 +272,7 @@ class EventListData extends AbstractData
                'title="' . self::getTitle($label, $newsId) . '" ' .
                'onclick="' . self::getOnClickModal($label, $newsId) . '" ' .
                'class="edit">' .
-               Image::getHtml('edit.gif', $GLOBALS['TL_LANG']['tl_calendar_events']['edit']) .
+               Image::getHtml('edit.gif', $GLOBALS['TL_LANG']['tl_calendar_events']['edit'][0]) .
                '</a> ';
     }
 
@@ -311,7 +311,7 @@ class EventListData extends AbstractData
                'title="' . self::getTitle($label, $newsId) . '" ' .
                'onclick="' . self::getOnClickModal($label, $newsId) . '" ' .
                'class="edit">' .
-               Image::getHtml('show.gif', $GLOBALS['TL_LANG']['tl_calendar_events']['edit']) .
+               Image::getHtml('show.gif', $GLOBALS['TL_LANG']['tl_calendar_events']['edit'][0]) .
                '</a> ';
     }
 
