@@ -135,7 +135,7 @@ class EventController extends SQLListData
      */
     public function filter(array $keys)
     {
-        $newsList = new EventListData($this->getWidget()->getData(), Database::getInstance());
+        $newsList = new EventListData($this->getWidget(), Database::getInstance());
 
         return $newsList->filter($keys);
     }
