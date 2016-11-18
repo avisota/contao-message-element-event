@@ -23,6 +23,7 @@ use Contao\BackendUser;
 use Contao\Database;
 use Contao\Image;
 use Contao\System;
+use ContaoCommunityAlliance\DcGeneral\DC_General;
 use ContaoCommunityAlliance\UrlBuilder\UrlBuilder;
 use Hofff\Contao\Selectri\Exception\SelectriException;
 use Hofff\Contao\Selectri\Model\AbstractData;
@@ -237,10 +238,14 @@ class EventListData extends AbstractData
      */
     protected function prepareButtons($newsId)
     {
+        global $container;
+
         System::loadLanguageFile('tl_calendar_events');
 
-        $buttons = self::getModalEditButton($newsId);
-        $buttons .= self::getModalShowButton($newsId);
+        $translator = $container['translator'];
+
+        $buttons = self::getModalEditButton($newsId, $translator);
+        $buttons .= self::getModalShowButton($newsId, $translator);
 
         return $buttons;
     }
@@ -252,7 +257,7 @@ class EventListData extends AbstractData
      *
      * @return string
      */
-    protected function getModalEditButton($newsId)
+    protected function getModalEditButton($newsId, $translator)
     {
         $urlParams = array(
             array(
@@ -265,14 +270,14 @@ class EventListData extends AbstractData
             ),
         );
 
-        $label = $GLOBALS['TL_LANG']['tl_calendar_events']['edit'][1];
+        $label = $translator->translate('edit.1', 'tl_calendar_events');
 
         return '<a ' .
                'href="' . self::getBackendUrl($urlParams) . '" ' .
                'title="' . self::getTitle($label, $newsId) . '" ' .
                'onclick="' . self::getOnClickModal($label, $newsId) . '" ' .
                'class="edit">' .
-               Image::getHtml('edit.gif', $GLOBALS['TL_LANG']['tl_calendar_events']['edit'][0]) .
+               Image::getHtml('edit.gif', $translator->translate('edit.0', 'tl_calendar_events')) .
                '</a> ';
     }
 
@@ -283,7 +288,7 @@ class EventListData extends AbstractData
      *
      * @return string
      */
-    protected function getModalShowButton($newsId)
+    protected function getModalShowButton($newsId, $translator)
     {
         $urlParams = array(
             array(
@@ -304,14 +309,14 @@ class EventListData extends AbstractData
             ),
         );
 
-        $label = $GLOBALS['TL_LANG']['tl_calendar_events']['show'][1];
+        $label = $translator->translate('show.1', 'tl_calendar_events');
 
         return '<a ' .
                'href="' . self::getBackendUrl($urlParams) . '" ' .
                'title="' . self::getTitle($label, $newsId) . '" ' .
                'onclick="' . self::getOnClickModal($label, $newsId) . '" ' .
                'class="edit">' .
-               Image::getHtml('show.gif', $GLOBALS['TL_LANG']['tl_calendar_events']['edit'][0]) .
+               Image::getHtml('show.gif', $translator->translate('show.0', 'tl_calendar_events')) .
                '</a> ';
     }
 
