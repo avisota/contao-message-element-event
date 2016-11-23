@@ -31,9 +31,9 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
     'exclude'   => true,
     'inputType' => 'avisotaSelectriWithItems',
     'eval'      => array(
-        'min'  => 1,
-        'max'  => 99,
-        'data' => 'Avisota\Contao\Message\Element\Event\DataContainer\EventListDataFactory',
+        'min'       => 1,
+        'max'       => 99,
+        'data'      => 'Avisota\Contao\Message\Element\Event\DataContainer\EventListDataFactory',
         'canonical' => true
     ),
     'field'     => array(
@@ -42,12 +42,12 @@ $GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventIdWithTimestam
     ),
 );
 
-$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate']        = array
+$GLOBALS['TL_DCA']['orm_avisota_message_content']['fields']['eventTemplate'] = array
 (
-    'label'            => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate'],
-    'exclude'          => true,
-    'inputType'        => 'select',
-    'field'            => array(
+    'label'     => &$GLOBALS['TL_LANG']['orm_avisota_message_content']['eventTemplate'],
+    'exclude'   => true,
+    'inputType' => 'select',
+    'field'     => array(
         'type'     => 'string',
         'nullable' => true,
     ),

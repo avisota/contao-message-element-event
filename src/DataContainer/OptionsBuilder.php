@@ -79,7 +79,7 @@ class OptionsBuilder implements EventSubscriberInterface
 
         $getTemplateGroupEvent = new GetTemplateGroupEvent('event_');
         $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_TEMPLATE_GROUP, $getTemplateGroupEvent);
-        $options =  $getTemplateGroupEvent->getTemplates()->getArrayCopy();
+        $options = $getTemplateGroupEvent->getTemplates()->getArrayCopy();
 
         /** @var MessageContent $messageContent */
         $messageContent = $event->getModel()->getEntity();
