@@ -19,6 +19,7 @@ sudo: false
 
 before_install:
   - COMPOSER_ROOT_VERSION=3.2.0
+  - phpenv config-add travis.php.ini
   - if [ -n "GITHUB_TOKEN" ]; then composer config github-oauth.github.com ${GITHUB_TOKEN}; fi;
 
 install:
