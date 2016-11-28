@@ -19,16 +19,10 @@ use Avisota\Contao\Selectri\DataContainer\DatabaseTrait;
 use Avisota\Contao\Selectri\Model\Flat\SQLListDataGroupedConfig;
 use Avisota\Contao\Selectri\Model\Flat\SQLListSelectAbleNode;
 use Avisota\Contao\Selectri\Model\Tree\SQLAdjacencyTreeDataConfigWithItems;
-use Avisota\Contao\Selectri\Model\Tree\SQLAdjacencyTreeDataWithItems;
-use Contao\BackendUser;
 use Contao\Database;
 use Hofff\Contao\Selectri\Exception\SelectriException;
 use Hofff\Contao\Selectri\Model\AbstractData;
 use Hofff\Contao\Selectri\Model\Flat\SQLListData;
-use Hofff\Contao\Selectri\Model\Flat\SQLListDataConfig;
-use Hofff\Contao\Selectri\Model\Flat\SQLListNode;
-use Hofff\Contao\Selectri\Model\Tree\SQLAdjacencyTreeDataConfig;
-use Hofff\Contao\Selectri\Util\Icons;
 use Hofff\Contao\Selectri\Util\SQLUtil;
 use Hofff\Contao\Selectri\Widget;
 
