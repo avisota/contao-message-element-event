@@ -18,8 +18,6 @@ namespace Avisota\Contao\Message\Element\Event\DataContainer;
 use Avisota\Contao\Entity\MessageContent;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetTemplateGroupEvent;
-use ContaoCommunityAlliance\Contao\Events\CreateOptions\CreateOptionsEventCallbackFactory;
-use ContaoCommunityAlliance\DcGeneral\Contao\Callback\Callbacks;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -79,7 +77,7 @@ class OptionsBuilder implements EventSubscriberInterface
 
         $getTemplateGroupEvent = new GetTemplateGroupEvent('event_');
         $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_TEMPLATE_GROUP, $getTemplateGroupEvent);
-        $options =  $getTemplateGroupEvent->getTemplates()->getArrayCopy();
+        $options = $getTemplateGroupEvent->getTemplates()->getArrayCopy();
 
         /** @var MessageContent $messageContent */
         $messageContent = $event->getModel()->getEntity();

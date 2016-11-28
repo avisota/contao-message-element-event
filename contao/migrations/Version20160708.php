@@ -15,11 +15,7 @@
 
 namespace DoctrineMigrations\AvisotaMessageElementEvent;
 
-use Avisota\Contao\Entity\MessageContent;
 use Contao\Database;
-use Contao\Doctrine\ORM\EntityHelper;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
