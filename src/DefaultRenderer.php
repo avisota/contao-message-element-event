@@ -81,7 +81,7 @@ class DefaultRenderer implements EventSubscriberInterface
         $eventDispatcher = $container['event-dispatcher'];
 
         $contexts = array();
-        foreach ($content->getEventIdWithTimestamp() as $calendarEventId) {
+        foreach (array_keys($content->getEventIdWithTimestamp()) as $calendarEventId) {
             $calendarEventEvent = new GetCalendarEventEvent(
                 $calendarEventId,
                 null,
