@@ -4,22 +4,27 @@
       <trans-unit id="orm_avisota_message_content.eventTemplate.0">
         <source>Event template</source>
         <target>Event-Template</target>
-        
+
       </trans-unit>
       <trans-unit id="orm_avisota_message_content.eventTemplate.1">
         <source>Please choose the event template.</source>
         <target>Bitte wählen Sie das Template für die Darstellung des Events aus.</target>
-        
+
       </trans-unit>
       <trans-unit id="orm_avisota_message_content.eventIdWithTimestamp.0">
         <source>Event</source>
         <target>Event</target>
-        
+
       </trans-unit>
       <trans-unit id="orm_avisota_message_content.eventIdWithTimestamp.1">
         <source>Please choose the event to include.</source>
         <target>Bitte wählen Sie das einzubindende Event aus.</target>
-        
+
+      </trans-unit>
+      <trans-unit id="orm_avisota_message_content.event.saveBeforeSelect">
+        <source>You must save this message content, before you can select event.</source>
+        <target>Dieses Inhaltselement muss zuvor gespeichert werden, bevor man ein Event auswählen kann.</target>
+
       </trans-unit>
     </body>
   </file>
