@@ -3,19 +3,23 @@
     <body>
       <trans-unit id="orm_avisota_message_content.eventTemplate.0">
         <source>Event template</source>
-        
+
       </trans-unit>
       <trans-unit id="orm_avisota_message_content.eventTemplate.1">
         <source>Please choose the event template.</source>
-        
+
       </trans-unit>
       <trans-unit id="orm_avisota_message_content.eventIdWithTimestamp.0">
         <source>Event</source>
-        
+
       </trans-unit>
       <trans-unit id="orm_avisota_message_content.eventIdWithTimestamp.1">
         <source>Please choose the event to include.</source>
-        
+
+      </trans-unit>
+      <trans-unit id="orm_avisota_message_content.event.saveBeforeSelect">
+        <source>You must save this message content, before you can select event.</source>
+
       </trans-unit>
     </body>
   </file>
