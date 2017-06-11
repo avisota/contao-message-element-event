@@ -75,7 +75,7 @@ class MessageContent implements EventSubscriberInterface
                 true
             );
 
-            if (array_key_exists($infoMessageKey, $_SESSION['TL_INFO'])) {
+            if ($infoMessageKey && array_key_exists($infoMessageKey, $_SESSION['TL_INFO'])) {
                 unset($_SESSION['TL_INFO'][$infoMessageKey]);
             }
         }
