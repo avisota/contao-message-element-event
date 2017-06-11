@@ -2,11 +2,11 @@
 
 /**
  * Avisota newsletter and mailing system
- * Copyright © 2016 Sven Baumann
+ * Copyright © 2017 Sven Baumann
  *
  * PHP version 5
  *
- * @copyright  way.vision 2016
+ * @copyright  way.vision 2017
  * @author     Sven Baumann <baumann.sv@gmail.com>
  * @package    avisota/contao-message-element-event
  * @license    LGPL-3.0+
@@ -15,7 +15,6 @@
 
 namespace Avisota\Contao\Message\Element\Event\DataContainer;
 
-use Avisota\Contao\Entity\MessageContent;
 use ContaoCommunityAlliance\Contao\Bindings\ContaoEvents;
 use ContaoCommunityAlliance\Contao\Bindings\Events\Controller\GetTemplateGroupEvent;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
@@ -79,7 +78,6 @@ class OptionsBuilder implements EventSubscriberInterface
         $eventDispatcher->dispatch(ContaoEvents::CONTROLLER_GET_TEMPLATE_GROUP, $getTemplateGroupEvent);
         $options = $getTemplateGroupEvent->getTemplates()->getArrayCopy();
 
-        /** @var MessageContent $messageContent */
         $messageContent = $event->getModel()->getEntity();
         $theme          = $messageContent->getMessage()->getCategory()->getLayout()->getTheme();
         if (!$theme->getTemplateDirectory()) {
