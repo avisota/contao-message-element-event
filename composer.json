@@ -31,6 +31,8 @@
         "php": "^5.6",
         "contao/core": "^3.5.5",
         "contao-community-alliance/composer-plugin": "^2.4",
+        "contao-community-alliance/dc-general": "^2.0.0@beta",
+        "contao-community-alliance/events-create-options": "^1.0@dev",
         "avisota/contao-core": "^3.1",
         "avisota/contao-message": "^3.2",
         "avisota/contao-message-element-headline": "^3.1",
@@ -39,8 +41,6 @@
     "require-dev": {
         "phpcq/all-tasks": "^1.2"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Avisota\\Contao\\Message\\Element\\Event\\": "src/"
