@@ -10,7 +10,7 @@
     ],
     "type": "contao-module",
     "homepage": "http://avisota.org",
-    "license": "LGPL-3.0+",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "Sven Baumann",
@@ -28,19 +28,19 @@
         "source": "https://github.com/avisota/contao-message-element-event"
     },
     "require": {
-        "php": ">=5.4,<7",
-        "contao/core": ">=3.5,<3.6",
-        "contao-community-alliance/composer-plugin": "~2.4",
-        "avisota/contao-core": "~3.1",
-        "avisota/contao-message": "~3.2",
-        "avisota/contao-message-element-headline": "~3.1",
-        "avisota/contao-selectri": "~3.0"
+        "php": "^5.6",
+        "contao/core": "^3.5.5",
+        "contao-community-alliance/composer-plugin": "^2.4",
+        "contao-community-alliance/dc-general": "^2.0.0@beta",
+        "contao-community-alliance/events-create-options": "^1.0@dev",
+        "avisota/contao-core": "^3.1",
+        "avisota/contao-message": "^3.2",
+        "avisota/contao-message-element-headline": "^3.1",
+        "avisota/contao-selectri": "^3.0"
     },
     "require-dev": {
-        "phpcq/all-tasks": "~1.1"
+        "phpcq/all-tasks": "^1.2"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Avisota\\Contao\\Message\\Element\\Event\\": "src/"
@@ -58,7 +58,8 @@
             }
         },
         "branch-alias": {
-            "dev-develop": "3.2.x-dev"
+            "dev-master": "3.3.x-dev",
+            "dev-develop": "3.4.x-dev"
         }
     }
 }
